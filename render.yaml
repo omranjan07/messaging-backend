@@ -5,3 +5,4 @@ services:
     plan: free
     buildCommand: npm install
     startCommand: node server.js
+    runtime: node 18
