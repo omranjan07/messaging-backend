@@ -12,11 +12,17 @@ const io = new Server(server, {
   }
 });
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 
 // Store messages in memory (for demo purposes)
 const messages = [];
+
+// Root route to handle "/"
+app.get('/', (req, res) => {
+  res.send('Welcome to the Messaging App Backend! Use /messages to fetch messages.');
+});
 
 // Endpoint to fetch all messages
 app.get('/messages', (req, res) => {
@@ -29,8 +35,8 @@ io.on('connection', (socket) => {
 
   // Listen for new messages
   socket.on('sendMessage', (message) => {
-    messages.push(message); // Save message
-    io.emit('receiveMessage', message); // Broadcast to all users
+    messages.push(message); // Save message in memory
+    io.emit('receiveMessage', message); // Broadcast the message to all users
   });
 
   socket.on('disconnect', () => {
